@@ -38,11 +38,11 @@ function displayMovies(data) {
         }
         let Arr = Array.from(data.results);
         Arr = Arr.filter(function (obj) {
-            const cmp=obj.title.toLowerCase();
+            const cmp = obj.title.toLowerCase();
             return cmp.includes(searchInput.value.toLowerCase());
         });
         for (let i = 0; i < Arr.length; i++) {
-            const movie=Arr[i];
+            const movie = Arr[i];
             let movieCode = `<div onclick="alert('영화 id: ' + '${movie.id}')" id="${movie.id}" class="card">
                 <img src="https://image.tmdb.org/t/p/w500/${movie.poster_path}" class="card-img-top">
                 <div class="card-body">
