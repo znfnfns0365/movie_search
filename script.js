@@ -30,16 +30,20 @@ function displayMovies(data) {
         editId.innerHTML += movieCode;
     });
     let search = () => {
-        editId.innerHTML = null;
-        const elements = document.getElementsByClassName("cards");
-        for (let i = 0; i < elements.length; i++) {
-            elements[i].style.margin = "0px";
-        }
         let Arr = Array.from(data.results);
         Arr = Arr.filter(function (obj) {
             const cmp = obj.title.toLowerCase();
             return cmp.includes(searchInput.value.toLowerCase());
         });
+        if(Arr.length==0){
+            alert('검색 결과가 없습니다.');
+            return;
+        }
+        editId.innerHTML = null;
+        const elements = document.getElementsByClassName("cards");
+        for (let i = 0; i < elements.length; i++) {
+            elements[i].style.margin = "0px";
+        }
         for (let i = 0; i < Arr.length; i++) {
             const movie = Arr[i];
             let movieCode = `<div onclick="alert('영화 id: ' + '${movie.id}')" id="${movie.id}" class="card">
@@ -54,7 +58,7 @@ function displayMovies(data) {
         return;
     }
     searchButton.addEventListener('click', search);
-    searchInput.addEventListener('keyup', function (event) {
+    searchInput.addEventListener('keyup', event => {
         if (event.keyCode == 13) {
             search();
         }
