@@ -1,5 +1,6 @@
-let searchButton = document.getElementById("searchButton");
-let searchInput = document.getElementById("searchInput");
+const searchButton = document.getElementById("searchButton");
+const searchInput = document.getElementById("searchInput");
+const editId = document.getElementById("cardSpace");
 
 const options = {
     method: 'GET',
@@ -26,11 +27,9 @@ function displayMovies(data) {
                 <p class="card-text">${movie.overview}</p>
             </div>
         </div>`
-        const editId = document.getElementById("cardSpace");
         editId.innerHTML += movieCode;
     });
     let search = () => {
-        const editId = document.getElementById("cardSpace");
         editId.innerHTML = null;
         const elements = document.getElementsByClassName("cards");
         for (let i = 0; i < elements.length; i++) {
@@ -50,13 +49,18 @@ function displayMovies(data) {
                     <p class="card-text">${movie.overview}</p>
                 </div>
             </div>`
-            const editId = document.getElementById("cardSpace");
             editId.innerHTML += movieCode;
         }
         return;
     }
     searchButton.addEventListener('click', search);
+    searchInput.addEventListener('keyup', function (event) {
+        if (event.keyCode == 13) {
+            search();
+        }
+    });
 }
 
-
-
+window.onload = function () {
+    document.getElementById("searchInput").focus();
+}
