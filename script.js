@@ -3,6 +3,7 @@ const searchInput = document.getElementById("searchInput");
 const editId = document.getElementById("cardSpace");
 const cardsClick = document.querySelector(".cards");
 const titleClick = document.getElementById("title");
+
 // getElementById와 querySelector 차이 (ID를 불러올 때)
 
 const options = {
@@ -32,10 +33,6 @@ const search = (data) => {
     return;
   }
   editId.innerHTML = null;
-  // const elements = document.getElementsByClassName("cards");
-  // for (let i = 0; i < elements.length; i++) {
-  //   elements[i].style.margin = "0px";
-  // }
   const element = document.querySelector(".cards");
   element.style.margin = "0px";
   for (let i = 0; i < filteredArr.length; i++) {
