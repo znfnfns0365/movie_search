@@ -16,6 +16,7 @@ const fetchMovie = async () => {
   const data = await fetch("https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1", options);
   const dataResponsed = await data.json();
   displayMovies(dataResponsed);
+  makeEvent(dataResponsed);
 };
 
 const search = (data) => {
@@ -41,6 +42,17 @@ const search = (data) => {
   return;
 };
 
+const makeEvent = (data) => {
+  searchButton.addEventListener("click", () => {
+    search(data);
+  });
+  searchInput.addEventListener("keyup", (event) => {
+    if (event.keyCode == 13) {
+      search(data);
+    }
+  });
+};
+
 function getMovieCode(movie) {
   const { id, poster_path, title, overview, vote_average } = movie; // alert에서 밖에 "없이 띄어쓰기 하면 오류나는 이유..?
   const movieCode = `<div onclick="alert('영화 id: ' + '${id}')" id="${id}" class="card">
@@ -58,15 +70,6 @@ function getMovieCode(movie) {
 function displayMovies(data) {
   data.results.forEach((movie) => {
     editId.innerHTML += getMovieCode(movie);
-  });
-
-  searchButton.addEventListener("click", () => {
-    search(data);
-  });
-  searchInput.addEventListener("keyup", (event) => {
-    if (event.keyCode == 13) {
-      search(data);
-    }
   });
 }
 
