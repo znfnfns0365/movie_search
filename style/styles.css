@@ -68,3 +68,7 @@ input[type="text"] {
 .cards {
   margin: 0px 0px 3600px 0px;
 }
+
+.card-rating {
+  margin: 0px 20px 0px 20px;
+}

@@ -21,12 +21,13 @@ const fetchFunc = async () => {
 
 function displayMovies(data) {
   data.results.forEach((movie) => {
-    const { id, poster_path, title, overview } = movie; // alert에서 밖에 "없이 띄어쓰기 하면 오류나는 이유..?
+    const { id, poster_path, title, overview, vote_average } = movie; // alert에서 밖에 "없이 띄어쓰기 하면 오류나는 이유..?
     let movieCode = `<div onclick="alert('영화 id: ' + '${id}')" id="${id}" class="card">
         <img src="https://image.tmdb.org/t/p/w500/${poster_path}" class="card-img-top">
             <div class="card-body">
                 <h2 class="card-title">${title}</h2>
                 <p class="card-text">${overview}</p>
+                <p class="card-rating">Rating: ${vote_average}</p>
             </div>
         </div>`;
     editId.innerHTML += movieCode;
@@ -50,12 +51,14 @@ function displayMovies(data) {
     const element = document.querySelector(".cards");
     element.style.margin = "0px";
     for (let i = 0; i < filteredArr.length; i++) {
-      const { id, poster_path, title, overview } = filteredArr[i];
+      console.log(filteredArr[i]);
+      const { id, poster_path, title, overview, vote_average } = filteredArr[i];
       let movieCode = `<div onclick="alert('영화 id: ' + '${id}')" id="${id}" class="card">
                 <img src="https://image.tmdb.org/t/p/w500/${poster_path}" class="card-img-top">
                 <div class="card-body">
                     <h2 class="card-title">${title}</h2>
                     <p class="card-text">${overview}</p>
+                    <p class="card-rating">Rating: ${vote_average}</p>
                 </div>
             </div>`;
       editId.innerHTML += movieCode;
