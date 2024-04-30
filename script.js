@@ -2,6 +2,7 @@ const searchButton = document.getElementById("searchButton");
 const searchInput = document.getElementById("searchInput");
 const editId = document.getElementById("cardSpace");
 const cardsClick = document.querySelector(".cards");
+const titleClick = document.getElementById("title");
 // getElementById와 querySelector 차이 (ID를 불러올 때)
 
 const options = {
@@ -63,6 +64,9 @@ const makeEvent = (data) => {
     }
   });
   cardsClick.addEventListener("click", cardClicked);
+  titleClick.addEventListener("click", () => {
+    location.reload(true);
+  });
 };
 
 function getMovieCode(movie) {
