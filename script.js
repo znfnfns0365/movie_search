@@ -12,63 +12,61 @@ const options = {
   }
 };
 
-const fetchFunc = async () => {
+const fetchMovie = async () => {
   const data = await fetch("https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1", options)
     .then((response) => response.json())
     .catch((err) => console.error(err));
   displayMovies(data);
 };
 
-function displayMovies(data) {
-  data.results.forEach((movie) => {
-    const { id, poster_path, title, overview, vote_average } = movie; // alert에서 밖에 "없이 띄어쓰기 하면 오류나는 이유..?
-    let movieCode = `<div onclick="alert('영화 id: ' + '${id}')" id="${id}" class="card">
+const search = (data) => {
+  let getArr = Array.from(data.results);
+  let filteredArr = getArr.filter(function (obj) {
+    const cmp = obj.title.toLowerCase();
+    return cmp.includes(searchInput.value.toLowerCase());
+  });
+  if (filteredArr.length == 0) {
+    alert("검색 결과가 없습니다.");
+    return;
+  }
+  editId.innerHTML = null;
+  // const elements = document.getElementsByClassName("cards");
+  // for (let i = 0; i < elements.length; i++) {
+  //   elements[i].style.margin = "0px";
+  // }
+  const element = document.querySelector(".cards");
+  element.style.margin = "0px";
+  for (let i = 0; i < filteredArr.length; i++) {
+    editId.innerHTML += getMovieCode(filteredArr[i]);
+  }
+  return;
+};
+
+function getMovieCode(movie) {
+  const { id, poster_path, title, overview, vote_average } = movie; // alert에서 밖에 "없이 띄어쓰기 하면 오류나는 이유..?
+  const movieCode = `<div onclick="alert('영화 id: ' + '${id}')" id="${id}" class="card">
         <img src="https://image.tmdb.org/t/p/w500/${poster_path}" class="card-img-top">
             <div class="card-body">
                 <h2 class="card-title">${title}</h2>
                 <p class="card-text">${overview}</p>
+                <p></p>
                 <p class="card-rating">Rating: ${vote_average}</p>
             </div>
         </div>`;
-    editId.innerHTML += movieCode;
+  return movieCode;
+}
+
+function displayMovies(data) {
+  data.results.forEach((movie) => {
+    editId.innerHTML += getMovieCode(movie);
   });
 
-  let search = () => {
-    let Arr = Array.from(data.results);
-    let filteredArr = Arr.filter(function (obj) {
-      const cmp = obj.title.toLowerCase();
-      return cmp.includes(searchInput.value.toLowerCase());
-    });
-    if (filteredArr.length == 0) {
-      alert("검색 결과가 없습니다.");
-      return;
-    }
-    editId.innerHTML = null;
-    // const elements = document.getElementsByClassName("cards");
-    // for (let i = 0; i < elements.length; i++) {
-    //   elements[i].style.margin = "0px";
-    // }
-    const element = document.querySelector(".cards");
-    element.style.margin = "0px";
-    for (let i = 0; i < filteredArr.length; i++) {
-      console.log(filteredArr[i]);
-      const { id, poster_path, title, overview, vote_average } = filteredArr[i];
-      let movieCode = `<div onclick="alert('영화 id: ' + '${id}')" id="${id}" class="card">
-                <img src="https://image.tmdb.org/t/p/w500/${poster_path}" class="card-img-top">
-                <div class="card-body">
-                    <h2 class="card-title">${title}</h2>
-                    <p class="card-text">${overview}</p>
-                    <p class="card-rating">Rating: ${vote_average}</p>
-                </div>
-            </div>`;
-      editId.innerHTML += movieCode;
-    }
-    return;
-  };
-  searchButton.addEventListener("click", search);
+  searchButton.addEventListener("click", () => {
+    search(data);
+  });
   searchInput.addEventListener("keyup", (event) => {
     if (event.keyCode == 13) {
-      search();
+      search(data);
     }
   });
 }
@@ -77,4 +75,4 @@ window.onload = function () {
   document.getElementById("searchInput").focus();
 };
 
-fetchFunc();
+fetchMovie();
