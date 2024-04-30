@@ -1,6 +1,7 @@
 const searchButton = document.getElementById("searchButton");
 const searchInput = document.getElementById("searchInput");
 const editId = document.getElementById("cardSpace");
+const cardsClick = document.querySelector(".cards");
 // getElementById와 querySelector 차이 (ID를 불러올 때)
 
 const options = {
@@ -42,6 +43,16 @@ const search = (data) => {
   return;
 };
 
+function cardClicked(event) {
+  if (event.target === event.currentTarget) return;
+
+  if (event.target.matches(".card")) {
+    alert(`영화 id: ${event.target.id}`);
+  } else {
+    alert(`영화 id: ${event.target.parentNode.id}`);
+  }
+}
+
 const makeEvent = (data) => {
   searchButton.addEventListener("click", () => {
     search(data);
@@ -51,18 +62,18 @@ const makeEvent = (data) => {
       search(data);
     }
   });
+  cardsClick.addEventListener("click", cardClicked);
 };
 
 function getMovieCode(movie) {
   const { id, poster_path, title, overview, vote_average } = movie; // alert에서 밖에 "없이 띄어쓰기 하면 오류나는 이유..?
-  const movieCode = `<div onclick="alert('영화 id: ' + '${id}')" id="${id}" class="card">
-        <img src="https://image.tmdb.org/t/p/w500/${poster_path}" class="card-img-top">
-            <div class="card-body">
-                <h2 class="card-title">${title}</h2>
-                <p class="card-text">${overview}</p>
-                <p></p>
-                <p class="card-rating">Rating: ${vote_average}</p>
-            </div>
+  // const movieCode = `<div onclick="alert('영화 id: ' + '${id}')" id="${id}" class="card">
+  const movieCode = `<div id="${id}" class="card">
+          <img src="https://image.tmdb.org/t/p/w500/${poster_path}" class="card-img-top">
+          <h2 class="card-title">${title}</h2>
+          <p class="card-text">${overview}</p>
+          <p></p>
+          <p class="card-rating">Rating: ${vote_average}</p>
         </div>`;
   return movieCode;
 }
@@ -74,7 +85,7 @@ function displayMovies(data) {
 }
 
 window.onload = function () {
-  document.getElementById("searchInput").focus();
+  searchInput.focus();
 };
 
 fetchMovie();
