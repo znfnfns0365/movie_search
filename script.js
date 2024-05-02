@@ -3,7 +3,6 @@ const searchInput = document.getElementById("searchInput");
 const editId = document.getElementById("cardSpace");
 const cardsClick = document.querySelector(".cards");
 const titleClick = document.getElementById("title");
-// getElementById와 querySelector 차이 (ID를 불러올 때)
 
 const options = {
   method: "GET",
@@ -31,13 +30,9 @@ const search = (data) => {
     alert("검색 결과가 없습니다.");
     return;
   }
-  editId.innerHTML = null;
-  // const elements = document.getElementsByClassName("cards");
-  // for (let i = 0; i < elements.length; i++) {
-  //   elements[i].style.margin = "0px";
-  // }
   const element = document.querySelector(".cards");
   element.style.margin = "0px";
+  editId.innerHTML = null;
   for (let i = 0; i < filteredArr.length; i++) {
     editId.innerHTML += getMovieCode(filteredArr[i]);
   }
@@ -59,7 +54,7 @@ const makeEvent = (data) => {
     search(data);
   });
   searchInput.addEventListener("keyup", (event) => {
-    if (event.keyCode == 13) {
+    if (event.code == "Enter") {
       search(data);
     }
   });
@@ -70,8 +65,7 @@ const makeEvent = (data) => {
 };
 
 function getMovieCode(movie) {
-  const { id, poster_path, title, overview, vote_average } = movie; // alert에서 밖에 "없이 띄어쓰기 하면 오류나는 이유..?
-  // const movieCode = `<div onclick="alert('영화 id: ' + '${id}')" id="${id}" class="card">
+  const { id, poster_path, title, overview, vote_average } = movie;
   const movieCode = `<div id="${id}" class="card">
           <img src="https://image.tmdb.org/t/p/w500/${poster_path}" class="card-img-top">
           <h2 class="card-title">${title}</h2>
@@ -90,6 +84,5 @@ function displayMovies(data) {
 
 window.onload = function () {
   searchInput.focus();
+  fetchMovie();
 };
-
-fetchMovie();
